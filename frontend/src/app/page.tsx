@@ -5,7 +5,7 @@ import { Task, Column, Columns } from "@/interfaces/types";
 import ColumnComponent from "@/components/columnComponent";
 import CardComponent from "@/components/cardComponent";
 
-export default function HomePage() {
+export default function ScrumTable() {
   const [columns, setColumns] = useState<Columns>({
     TODO: {
       name: "TODO",

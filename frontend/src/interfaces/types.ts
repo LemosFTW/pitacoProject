@@ -16,3 +16,8 @@ export interface Column {
 export interface Columns {
   [key: string]: Column;
 } 
+
+export type HeaderTitle = {
+  title: string;
+  href: string;
+};
