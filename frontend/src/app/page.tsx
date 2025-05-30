@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Task, Column, Columns } from "@/interfaces/types";
 import ColumnComponent from "@/components/columnComponent";
 import CardComponent from "@/components/cardComponent";
+import ButtonComponent from "@/components/buttonComponent";
 
 export default function ScrumTable() {
   const [columns, setColumns] = useState<Columns>({
@@ -132,6 +133,11 @@ export default function ScrumTable() {
             ))}
           </div>
         </DragDropContext>
+      <ButtonComponent
+        label="Add New Task"
+        onClick={() => {
+        }}
+        disabled={false}/>
       </div>
     </div>
   );
