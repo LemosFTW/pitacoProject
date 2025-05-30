@@ -24,3 +24,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+Forcing the header text color to match the background color
+*/
+.fc-col-header-cell-cushion {
+  color: var(--background) !important; 
+}

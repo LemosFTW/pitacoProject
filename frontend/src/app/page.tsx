@@ -90,7 +90,6 @@ export default function ScrumTable() {
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
-        <h1 className="text-3xl font-bold mb-8 text-white">Welcome, John Doe!</h1>
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.entries(columns).map(([columnId, column]) => (
