@@ -95,7 +95,7 @@ export default function ScrumTable() {
       ...newTask,
       id: Date.now().toString() // Gera um ID único
     };
-    // POST request to save new task
+    //TODO: POST request to save new task
 
 
 
