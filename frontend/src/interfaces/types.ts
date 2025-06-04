@@ -41,4 +41,5 @@ export interface CardComponentProps {
   draggableProps?: DraggableProvidedDraggableProps;
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
   innerRef?: (element: HTMLElement | null) => void;
+  onDelete?: () => void;
 }

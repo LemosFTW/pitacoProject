@@ -1,6 +1,6 @@
 import { HeaderTitle } from "@/interfaces/types";
 export default function HeaderComponent({ titles }: { titles: HeaderTitle[] }) {
-  return (
+    return (
     <header className="w-full bg-gray-900 shadow-md">
       <nav className="max-w-7xl mx-auto flex items-center justify-center py-3">
         {titles.map((item, index) => (
@@ -11,8 +11,8 @@ export default function HeaderComponent({ titles }: { titles: HeaderTitle[] }) {
           >
             {item.title}
           </a>
-        ))}
+                ))}
       </nav>
     </header>
-  );
+    );
 }

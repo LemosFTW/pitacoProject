@@ -13,7 +13,7 @@ export default function ButtonComponent({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 ${className}`}
+      className={`px-4 py-2 mt-5 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400 ${className}`}
     >
       {label}
     </button>

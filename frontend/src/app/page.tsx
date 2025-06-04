@@ -97,8 +97,6 @@ export default function ScrumTable() {
     };
     //TODO: POST request to save new task
 
-
-
     setColumns(prev => ({
       ...prev,
       TODO: {
@@ -106,8 +104,17 @@ export default function ScrumTable() {
         items: [...prev.TODO.items, taskWithId]
       }
     }));
+  };
 
-
+  const handleDeleteTask = (taskId: string) => {
+    //TODO: DELETE request to delete task
+    setColumns(prev => {
+      const newColumns = { ...prev };
+      Object.keys(newColumns).forEach(columnId => {
+        newColumns[columnId].items = newColumns[columnId].items.filter(item => item.id !== taskId);
+      });
+      return newColumns;
+    });
   };
 
   return (
@@ -140,6 +147,7 @@ export default function ScrumTable() {
                               draggableProps={provided.draggableProps}
                               dragHandleProps={provided.dragHandleProps}
                               innerRef={provided.innerRef}
+                              onDelete={() => handleDeleteTask(item.id)}
                             />
                           )}
                         </Draggable>
