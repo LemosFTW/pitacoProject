@@ -5,8 +5,10 @@ import { Task, Column, Columns } from "@/interfaces/types";
 import ColumnComponent from "@/components/columnComponent";
 import CardComponent from "@/components/cardComponent";
 import ButtonComponent from "@/components/buttonComponent";
+import ModalComponent from "@/components/modalComponent";
 
 export default function ScrumTable() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [columns, setColumns] = useState<Columns>({
     TODO: {
       name: "TODO",
@@ -88,6 +90,26 @@ export default function ScrumTable() {
     }
   };
 
+  const handleAddTask = (newTask: Omit<Task, "id">) => {
+    const taskWithId = {
+      ...newTask,
+      id: Date.now().toString() // Gera um ID único
+    };
+    // POST request to save new task
+
+
+
+    setColumns(prev => ({
+      ...prev,
+      TODO: {
+        ...prev.TODO,
+        items: [...prev.TODO.items, taskWithId]
+      }
+    }));
+
+
+  };
+
   return (
     <div>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
@@ -108,20 +130,17 @@ export default function ScrumTable() {
                           index={index}
                         >
                           {(provided: DraggableProvided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <CardComponent
-                                name={item.name}
-                                date={item.date}
-                                time={item.time}
-                                duration={item.duration}
-                                location={item.location}
-                                description={item.description}
-                              />
-                            </div>
+                            <CardComponent
+                              name={item.name}
+                              date={item.date}
+                              time={item.time}
+                              duration={item.duration}
+                              location={item.location}
+                              description={item.description}
+                              draggableProps={provided.draggableProps}
+                              dragHandleProps={provided.dragHandleProps}
+                              innerRef={provided.innerRef}
+                            />
                           )}
                         </Draggable>
                       ))}
@@ -133,12 +152,18 @@ export default function ScrumTable() {
             ))}
           </div>
         </DragDropContext>
-      <ButtonComponent
-        label="Add New Task"
-        onClick={() => {
-        }}
-        disabled={false}/>
+        <ButtonComponent
+          label="Add New Task"
+          onClick={() => setIsModalOpen(true)}
+          disabled={false}
+        />
       </div>
+
+      <ModalComponent
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleAddTask}
+      />
     </div>
   );
 }

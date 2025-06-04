@@ -1,13 +1,24 @@
-export default function CardComponent({ name, date, time, duration, location, description }: {
-    name: string;
-    date: string;
-    time: string;
-    duration: number;
-    location: string;
-    description: string;
-}) {
+import { CardComponentProps } from "@/interfaces/types";
+
+
+export default function CardComponent({
+    name,
+    date,
+    time,
+    duration,
+    location,
+    description,
+    draggableProps,
+    dragHandleProps,
+    innerRef
+}: CardComponentProps) {
     return (
-        <div className="bg-white rounded-lg shadow-sm p-3 mb-2 hover:shadow-md transition-shadow cursor-pointer">
+        <div
+            ref={innerRef}
+            {...draggableProps}
+            {...dragHandleProps}
+            className="bg-white rounded-lg shadow-sm p-3 mb-2 hover:shadow-md transition-shadow cursor-pointer"
+        >
             <h3 className="font-medium text-gray-800 mb-2">{name}</h3>
             
             <div className="space-y-2 text-sm text-gray-600">
@@ -40,5 +51,5 @@ export default function CardComponent({ name, date, time, duration, location, de
                 )}
             </div>
         </div>
-    )
+    );
 }
