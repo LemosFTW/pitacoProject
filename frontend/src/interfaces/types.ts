@@ -8,6 +8,7 @@ export interface Task {
   duration: number;
   location: string;
   description: string;
+  scrum: string;
 }
 
 export interface Column {

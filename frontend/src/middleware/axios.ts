@@ -16,3 +16,8 @@ export const del = async (urlToFetch: string) => {
     const response = await axios.delete(`${url}/${urlToFetch}`);
     return response.data;
 }
+
+export const patch = async (urlToFetch: string, data: any) => {
+    const response = await axios.patch(`${url}/${urlToFetch}`, data);
+    return response.data;
+}

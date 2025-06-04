@@ -6,7 +6,7 @@ import ColumnComponent from "@/components/columnComponent";
 import CardComponent from "@/components/cardComponent";
 import ButtonComponent from "@/components/buttonComponent";
 import ModalComponent from "@/components/modalComponent";
-import { get, post, del } from "@/middleware/axios";
+import { get, post, del, patch } from "@/middleware/axios";
 import { useEffect,lazy } from "react";
 
 export default function ScrumTable() {
@@ -27,7 +27,15 @@ export default function ScrumTable() {
       ...prev,
       TODO: {
         ...prev.TODO,
-        items: appointments
+        items: appointments.filter(appointment => appointment.scrum === "TODO")
+      },
+      DOING: {
+        ...prev.DOING,
+        items: appointments.filter(appointment => appointment.scrum === "DOING")
+      },
+      DONE: {
+        ...prev.DONE,
+        items: appointments.filter(appointment => appointment.scrum === "DONE")
       }
     }));
   }, [appointments]);
@@ -51,6 +59,15 @@ export default function ScrumTable() {
     if (!result.destination) return;
 
     const { source, destination } = result;
+
+    console.log('Drag result:', result);
+    patch(`appointments/${result.draggableId}`, {
+      column: destination.droppableId
+    }).then(res => {
+      console.log('Task updated:', res);
+    }).catch(err => {
+      console.error('Error updating task:', err);
+    });
 
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
@@ -88,13 +105,14 @@ export default function ScrumTable() {
   const handleAddTask = (newTask: Omit<Task, "id">) => {
     const taskWithId = {
       ...newTask,
-      id: Date.now().toString() // Gera um ID único
+      id: Date.now().toString()
     };
     post('appointments', taskWithId).then(res => {
       console.log('Task added:', res);
     }).catch(err => {
       console.error('Error adding task:', err);
-    });
+      throw new Error('Failed to add task');
+});
 
     setColumns(prev => ({
       ...prev,
