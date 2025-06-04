@@ -31,3 +31,12 @@ Forcing the header text color to match the background color
 .fc-col-header-cell-cushion {
   color: var(--background) !important; 
 }
+
+/*
+Forcing the event to have a specific color
+*/
+.fc-event {
+  background-color: #1976d2 !important; /* Força o fundo azul */
+  border-color: #1976d2 !important;     /* Força a borda azul */
+  color: #ffffff !important;           /* Opcional: texto branco */
+}
