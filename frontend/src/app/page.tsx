@@ -6,41 +6,36 @@ import ColumnComponent from "@/components/columnComponent";
 import CardComponent from "@/components/cardComponent";
 import ButtonComponent from "@/components/buttonComponent";
 import ModalComponent from "@/components/modalComponent";
+import { get, post, del } from "@/middleware/axios";
+import { useEffect,lazy } from "react";
 
 export default function ScrumTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [appointments, setAppointments] = useState<Task[]>([]);
+
+  useEffect(() => {
+    get('appointments').then(res => {
+      console.log('Response:', res.appointments);
+      setAppointments(res.appointments);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
+
+  useEffect(() => {
+    setColumns(prev => ({
+      ...prev,
+      TODO: {
+        ...prev.TODO,
+        items: appointments
+      }
+    }));
+  }, [appointments]);
+
   const [columns, setColumns] = useState<Columns>({
     TODO: {
       name: "TODO",
-      items: [
-        {
-          id: "1",
-          name: "Dentist Appointment",
-          date: "2023-10-01",
-          time: "10:00",
-          duration: 60,
-          location: "123 Dental St, Tooth City",
-          description: "Regular check-up and cleaning.",
-        } as Task,
-        {
-          id: "2",
-          name: "Meeting with Bob",
-          date: "2023-10-02",
-          time: "14:00",
-          duration: 30,
-          location: "456 Business Rd, Worktown",
-          description: "Discuss project updates and next steps.",
-        } as Task,
-        {
-          id: "3",
-          name: "Grocery Shopping",
-          date: "2023-10-03",
-          time: "17:00",
-          duration: 90,
-          location: "789 Market Ave, Shopville",
-          description: "Buy groceries for the week.",
-        }as Task
-      ]
+      items: []
     } as Column,
     DOING: {
       name: "Currently Doing",
@@ -95,7 +90,11 @@ export default function ScrumTable() {
       ...newTask,
       id: Date.now().toString() // Gera um ID único
     };
-    //TODO: POST request to save new task
+    post('appointments', taskWithId).then(res => {
+      console.log('Task added:', res);
+    }).catch(err => {
+      console.error('Error adding task:', err);
+    });
 
     setColumns(prev => ({
       ...prev,
@@ -107,7 +106,11 @@ export default function ScrumTable() {
   };
 
   const handleDeleteTask = (taskId: string) => {
-    //TODO: DELETE request to delete task
+    del(`appointments/${taskId}`).then(res => {
+      console.log('Task deleted:', res);
+    }).catch(err => {
+      console.error('Error deleting task:', err);
+    });
     setColumns(prev => {
       const newColumns = { ...prev };
       Object.keys(newColumns).forEach(columnId => {
