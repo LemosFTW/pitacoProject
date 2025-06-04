@@ -31,11 +31,11 @@ app.post('/appointments', async (req, res) => {
   if (!name || !date || !time || !duration || !location || !description) 
     return res.status(400).json({ message: 'Missing required fields' });
   
-  
+  const scrum = "TODO";
   try {
     const result = await db.query(
-      'INSERT INTO appointments (id, name, date, time, duration, location, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [id, name, date, time, duration, location, description]
+      'INSERT INTO appointments (id, name, date, time, duration, location, description, scrum) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [id, name, date, time, duration, location, description,scrum]
     );
     
     res.status(201).json({ 
@@ -52,9 +52,6 @@ app.delete('/appointments/:id', async (req, res) => {
   const { id } = req.params;
   if (!id) 
     return res.status(400).json({ message: 'Missing required fields' });
-  
-  
-  
   try {
     await db.query('DELETE FROM appointments WHERE id = $1', [id]);
     res.json({ message: 'Appointment deleted successfully' });
@@ -63,6 +60,29 @@ app.delete('/appointments/:id', async (req, res) => {
     res.status(500).json({ message: 'Error deleting appointment' });
   }
 });
+
+app.patch('/appointments/:id', async (req, res) => {
+  const { column } = req.body;
+  const {id} = req.params;
+  if (!id)
+    return res.status(400).json({ message: 'Missing appointment ID' });
+
+  if (!column)
+    return res.status(400).json({ message: 'Missing required fields' });
+
+  try{
+    await db.query(
+      `UPDATE appointments SET scrum = $1 WHERE id = $2`,
+      [column, id]
+    );
+    res.json({ message: 'Appointment updated successfully' });
+
+  }catch (error) {
+    console.error('Error updating appointment:', error);
+    res.status(500).json({ message: 'Error updating appointment' });
+  }
+
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {

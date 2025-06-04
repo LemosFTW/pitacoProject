@@ -5,5 +5,6 @@ CREATE TABLE appointments (
   time TIME NOT NULL,
   duration INTEGER NOT NULL,
   location VARCHAR(255),
-  description TEXT
+  description TEXT,
+  scrum TEXT
 );
