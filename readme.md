@@ -15,6 +15,7 @@ Este é um projeto que envolve um backend em Node.js com Express e PostgreSQL e 
 sudo docker-compose up --build
 ```
 ```bash
+Com isso seus ambientes estão em:
 Front-End: http://localhost:3000/
 Back-End: http://localhost:8000/
 ```
