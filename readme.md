@@ -8,9 +8,94 @@ Este é um projeto que envolve um backend em Node.js com Express e PostgreSQL e 
 
 ## Como Rodar o Projeto
 
+
+### Rodar com o Docker - Mais Simples
+
+```bash
+sudo docker-compose up --build
+```
+```bash
+Front-End: http://localhost:3000/
+Back-End: http://localhost:8000/
+```
+
+### Instruções para rodar sem Docker - Mais Complicado.
 Siga estas instruções para configurar e executar o projeto localmente.
 
-TODO:
+### Pré-requisitos
+
+Certifique-se de ter o seguinte instalado:
+
+*   Node.js (versão LTS recomendada)
+*   npm (gerenciador de pacotes do Node.js)
+*   PostgreSQL (servidor de banco de dados)
+
+### Configuração do Banco de Dados
+
+1.  Crie um banco de dados PostgreSQL chamado `appointments_db`:
+    ```bash
+    createdb appointments_db
+    ```
+
+2.  Crie um arquivo `.env` na pasta `backend/` com as suas credenciais do PostgreSQL e a porta do servidor (exemplo):
+    ```env
+    PORT=8000
+    NODE_ENV=development
+
+    # Database Configuration
+    DB_USER=seu_usuario
+    DB_HOST=localhost
+    DB_NAME=appointments_db
+    DB_PASSWORD=sua_senha
+    DB_PORT=5432
+    ```
+
+3.  Execute o script de inicialização do banco de dados para criar a tabela `appointments`:
+    ```bash
+    cd backend
+    psql -d appointments_db -f src/database/schema.sql
+    ```
+
+### Configuração e Execução do Backend
+
+1.  Navegue até a pasta `backend/` no terminal:
+    ```bash
+    cd backend
+    ```
+
+2.  Instale as dependências do backend:
+    ```bash
+    npm install
+    ```
+
+3.  Inicie o servidor backend (em modo de desenvolvimento):
+    ```bash
+    npm run dev
+    ```
+    O servidor estará rodando em `http://localhost:8000` (ou na porta especificada no seu `.env`).
+
+### Configuração e Execução do Frontend
+
+1.  Navegue até a pasta `frontend/` no terminal:
+    ```bash
+    cd ../frontend
+    ```
+
+2.  Instale as dependências do frontend:
+    ```bash
+    npm install
+    ```
+
+3.  Crie um arquivo `.env` na raiz da pasta `frontend/` com a URL do backend:
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:8000
+    ```
+
+4.  Inicie a aplicação frontend:
+    ```bash
+    npm run dev
+    ```
+    A aplicação estará rodando em `http://localhost:3000`.
 
 ## Screenshots/Vídeos
 

@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:13-alpine 
+    container_name: pitaco_db
+    environment:
+      POSTGRES_DB: appointments_db # Nome do banco de dados
+      POSTGRES_USER: seu_usuario   # Use o mesmo usuário do seu .env do backend
+      POSTGRES_PASSWORD: sua_senha # Use a mesma senha do seu .env do backend
+    ports:
+      - "5433:5432" 
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -d appointments_db -U seu_usuario"] # Use o usuário correto
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend 
+    container_name: pitaco_backend
+    environment:
+      PORT: 8000
+      DB_USER: seu_usuario
+      DB_HOST: database 
+      DB_NAME: appointments_db
+      DB_PASSWORD: sua_senha
+      DB_PORT: 5432
+    ports:
+      - "8000:8000" 
+    volumes:
+      - ./backend:/app 
+      - /app/node_modules 
+    depends_on:
+      database:
+        condition: service_healthy 
+
+  frontend:
+    build: ./frontend
+    container_name: pitaco_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000 
+    ports:
+      - "3000:3000" 
+    volumes:
+      - ./frontend:/app 
+      - /app/node_modules
+    depends_on:
+      - backend 
+
+volumes:
+  db_data: 
